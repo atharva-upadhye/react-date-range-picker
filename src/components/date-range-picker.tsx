@@ -12,6 +12,7 @@ import { Calendar } from "./ui/calendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { endOfWeek, formatDate, startOfWeek } from "date-fns";
 import { cn } from "@/lib/utils";
+import { XCalendar } from "./ui/XCalendar";
 
 const rangeTypes = ["custom", "weeks", "months", "quarters", "years"] as const;
 
@@ -110,7 +111,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   />
                 </TabsContent>
                 <TabsContent value={rangeTypes[1]}>
-                  <Calendar
+                  {/* <Calendar
                     classNames={{
                       nav_button: cn(
                         buttonVariants({ variant: "outline" }),
@@ -138,6 +139,14 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                       });
                     }}
                     defaultMonth={selectedRange.from}
+                  /> */}
+                  <XCalendar
+                    defaultMonth={new Date()}
+                    dateCellPropsGen={(date) => {
+                      return {
+                        className: "w-9 h-9 flex justify-center items-center",
+                      };
+                    }}
                   />
                 </TabsContent>
               </Tabs>
