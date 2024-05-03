@@ -9,11 +9,7 @@ export default function DrpPage() {
   });
   return (
     <div className="p-3">
-      <DateRangePicker
-        selectedRange={range}
-        rangeType={"weeks"}
-        setSelectedRange={setRange}
-      />
+      <DateRangePicker selectedRange={range} setSelectedRange={setRange} />
     </div>
   );
 }
