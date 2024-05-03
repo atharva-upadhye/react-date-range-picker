@@ -36,8 +36,8 @@ export function CalendarDateTableCell(props: {
   setHoverDate: Dispatch<SetStateAction<Date | null>>;
   titleLeft?: ReactNode;
   hoverRange: DateRange | null;
-  isSelectingEnd: boolean;
-  setIsSelectingEnd: Dispatch<SetStateAction<boolean>>;
+  isSelectingStart: boolean;
+  setIsSelectingStart: Dispatch<SetStateAction<boolean>>;
 }) {
   const isOutsideCalendarDates = useMemo(() => {
     return props.rangeType === "years"
@@ -76,7 +76,7 @@ export function CalendarDateTableCell(props: {
         props.hoverRange &&
         isDateBetween(cellDate, props.hoverRange.from, props.hoverRange.to);
       const isPartOfBingSelected =
-        !props.isSelectingEnd &&
+        !props.isSelectingStart &&
         props.hoverRange &&
         ((isBefore(cellDate, props.range.from) &&
           isDateBetween(cellDate, props.range.from, props.hoverRange.from)) ||
@@ -107,18 +107,18 @@ export function CalendarDateTableCell(props: {
     if (props.rangeType === "months") {
       props.setRange((prev) => {
         if (
-          (props.isSelectingEnd &&
+          (props.isSelectingStart &&
             isAfter(startOfMonth(props.cellDate), prev.from)) ||
           isBefore(endOfMonth(props.cellDate), prev.to)
         ) {
-          props.setIsSelectingEnd(false);
+          props.setIsSelectingStart(false);
           return {
             from: startOfMonth(props.cellDate),
             to: endOfMonth(props.cellDate),
           };
         } else {
-          props.setIsSelectingEnd(true);
-          if (props.isSelectingEnd) {
+          props.setIsSelectingStart(true);
+          if (props.isSelectingStart) {
             return {
               from: startOfMonth(props.cellDate),
               to: prev.to,
@@ -134,18 +134,18 @@ export function CalendarDateTableCell(props: {
     } else if (props.rangeType === "weeks") {
       props.setRange((prev) => {
         if (
-          (props.isSelectingEnd &&
+          (props.isSelectingStart &&
             isAfter(startOfWeek(props.cellDate), prev.from)) ||
           isBefore(endOfWeek(props.cellDate), prev.to)
         ) {
-          props.setIsSelectingEnd(false);
+          props.setIsSelectingStart(false);
           return {
             from: startOfWeek(props.cellDate),
             to: endOfWeek(props.cellDate),
           };
         } else {
-          props.setIsSelectingEnd(true);
-          if (props.isSelectingEnd) {
+          props.setIsSelectingStart(true);
+          if (props.isSelectingStart) {
             return {
               from: startOfWeek(props.cellDate),
               to: prev.to,
@@ -161,18 +161,18 @@ export function CalendarDateTableCell(props: {
     } else if (props.rangeType === "quarters") {
       props.setRange((prev) => {
         if (
-          (props.isSelectingEnd &&
+          (props.isSelectingStart &&
             isAfter(startOfQuarter(props.cellDate), prev.from)) ||
           isBefore(endOfQuarter(props.cellDate), prev.to)
         ) {
-          props.setIsSelectingEnd(false);
+          props.setIsSelectingStart(false);
           return {
             from: startOfQuarter(props.cellDate),
             to: endOfQuarter(props.cellDate),
           };
         } else {
-          props.setIsSelectingEnd(true);
-          if (props.isSelectingEnd) {
+          props.setIsSelectingStart(true);
+          if (props.isSelectingStart) {
             return {
               from: startOfQuarter(props.cellDate),
               to: prev.to,
@@ -188,18 +188,18 @@ export function CalendarDateTableCell(props: {
     } else if (props.rangeType === "years") {
       props.setRange((prev) => {
         if (
-          (props.isSelectingEnd &&
+          (props.isSelectingStart &&
             isAfter(startOfYear(props.cellDate), prev.from)) ||
           isBefore(endOfYear(props.cellDate), prev.to)
         ) {
-          props.setIsSelectingEnd(false);
+          props.setIsSelectingStart(false);
           return {
             from: startOfYear(props.cellDate),
             to: endOfYear(props.cellDate),
           };
         } else {
-          props.setIsSelectingEnd(true);
-          if (props.isSelectingEnd) {
+          props.setIsSelectingStart(true);
+          if (props.isSelectingStart) {
             return {
               from: startOfYear(props.cellDate),
               to: prev.to,
@@ -215,18 +215,18 @@ export function CalendarDateTableCell(props: {
     } else {
       props.setRange((prev) => {
         if (
-          (props.isSelectingEnd &&
+          (props.isSelectingStart &&
             isAfter(startOfDay(props.cellDate), prev.from)) ||
           isBefore(endOfDay(props.cellDate), prev.to)
         ) {
-          props.setIsSelectingEnd(false);
+          props.setIsSelectingStart(false);
           return {
             from: startOfDay(props.cellDate),
             to: endOfDay(props.cellDate),
           };
         } else {
-          props.setIsSelectingEnd(true);
-          if (props.isSelectingEnd) {
+          props.setIsSelectingStart(true);
+          if (props.isSelectingStart) {
             return {
               from: startOfDay(props.cellDate),
               to: prev.to,

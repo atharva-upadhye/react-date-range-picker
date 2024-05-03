@@ -32,7 +32,7 @@ import { Button } from "../../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import { rangeTypes } from "../constants";
-import { type DateRange } from "../types";
+import { type RangeType, type DateRange } from "../types";
 import { Calendar } from "./calendar";
 
 export interface DateRangePickerProps
@@ -47,14 +47,12 @@ export interface DateRangePickerProps
 }
 const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
   ({ selectedRange, setSelectedRange, ...buttonProps }, ref) => {
-    const [isSelectingEnd, setIsSelectingEnd] = useState(false);
+    const [isSelectingStart, setIsSelectingStart] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
       setIsOpen(true);
     }, []);
-    const [rangeType, setRangeType] = useState<(typeof rangeTypes)[number]>(
-      rangeTypes[0],
-    );
+    const [rangeType, setRangeType] = useState<RangeType>(rangeTypes[0]);
     const [viewDate, setViewDate] = useState(startOfDay(selectedRange.from));
     const [range, setRange] = useState<DateRange>(
       rangeType === "months"
@@ -137,6 +135,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
         to: endOfDay(hoverDate),
       };
     }, [hoverDate, rangeType]);
+
+    useEffect(() => {
+      console.log("isSelectingStart", isSelectingStart);
+    }, [isSelectingStart]);
 
     return (
       <Popover
@@ -373,8 +375,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                       <Calendar
@@ -397,8 +399,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                     </div>
@@ -437,8 +439,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                       <Calendar
@@ -461,8 +463,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                     </div>
@@ -489,8 +491,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                       <Calendar
@@ -513,8 +515,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                     </div>
@@ -541,8 +543,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                       <Calendar
@@ -565,8 +567,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                     </div>
@@ -593,8 +595,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                       <Calendar
@@ -617,8 +619,8 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingEnd={isSelectingEnd}
-                        setIsSelectingEnd={setIsSelectingEnd}
+                        isSelectingStart={isSelectingStart}
+                        setIsSelectingStart={setIsSelectingStart}
                         getDateRange={getDateRange}
                       />
                     </div>
@@ -632,6 +634,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                     resetValues();
                     setIsOpen(false);
                     setHoverDate(null);
+                    setIsSelectingStart(true);
                   }}
                 >
                   Cancel
@@ -642,6 +645,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                     setViewDate(range.from);
                     setIsOpen(false);
                     setHoverDate(null);
+                    setIsSelectingStart(true);
                   }}
                 >
                   Apply

@@ -35,8 +35,8 @@ type CalendarProps = {
   options?: {
     showOutOfCalendarDates?: boolean;
   };
-  isSelectingEnd: boolean;
-  setIsSelectingEnd: Dispatch<SetStateAction<boolean>>;
+  isSelectingStart: boolean;
+  setIsSelectingStart: Dispatch<SetStateAction<boolean>>;
   getDateRange: (date: Date) => DateRange;
 };
 function Calendar(props: CalendarProps) {
@@ -123,8 +123,8 @@ function Calendar(props: CalendarProps) {
                     hoverDate={props.hoverDate}
                     setHoverDate={props.setHoverDate}
                     hoverRange={props.hoverRange}
-                    isSelectingEnd={props.isSelectingEnd}
-                    setIsSelectingEnd={props.setIsSelectingEnd}
+                    isSelectingStart={props.isSelectingStart}
+                    setIsSelectingStart={props.setIsSelectingStart}
                   />
                 ))}
               </tr>
