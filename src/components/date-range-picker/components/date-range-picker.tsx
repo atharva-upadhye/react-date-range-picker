@@ -188,7 +188,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   onClick={() => {
                     setRangeType("weeks");
                     const now = new Date();
-                    setViewDate(now);
+                    setViewDate(startOfWeek(now));
                     setRange({
                       from: startOfWeek(now),
                       to: endOfWeek(now),
