@@ -1,18 +1,27 @@
 "use client";
 import React, {
-  Dispatch,
-  SetStateAction,
+  type Dispatch,
+  type SetStateAction,
   forwardRef,
   useEffect,
+  useMemo,
   useState,
 } from "react";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button, buttonVariants } from "./ui/button";
+import { Button } from "./ui/button";
 import { Calendar } from "./ui/calendar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
-import { endOfWeek, formatDate, startOfWeek } from "date-fns";
-import { cn } from "@/lib/utils";
+import {
+  addMonths,
+  endOfDay,
+  endOfWeek,
+  formatDate,
+  startOfDay,
+  startOfWeek,
+  subMonths,
+} from "date-fns";
 import { XCalendar } from "./ui/XCalendar";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const rangeTypes = ["custom", "weeks", "months", "quarters", "years"] as const;
 
@@ -40,11 +49,29 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
     useEffect(() => {
       setIsOpen(true);
     }, []);
-
-    const [range, setRange] = useState<DateRange>(selectedRange);
+    const [viewDate, setViewDate] = useState(startOfDay(selectedRange.from));
+    const [range, setRange] = useState<DateRange>({
+      from: startOfDay(selectedRange.from),
+      to: endOfDay(selectedRange.to),
+    });
     const resetValues = () => {
       setRange(selectedRange);
     };
+    const [hoverDate, setHoverDate] = useState<null | Date>(null);
+    const hoverRange = useMemo<DateRange | null>(() => {
+      if (hoverDate === null) return null;
+      if (rangeType === "weeks") {
+        return {
+          from: startOfWeek(hoverDate),
+          to: endOfWeek(hoverDate),
+        };
+      }
+      return {
+        from: startOfDay(hoverDate),
+        to: endOfDay(hoverDate),
+      };
+    }, [hoverDate, rangeType]);
+
     return (
       <Popover
         modal={true}
@@ -58,6 +85,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
       >
         <PopoverTrigger asChild>
           <Button
+            ref={ref}
             onClick={() => {
               console.log("clicked");
             }}
@@ -96,22 +124,23 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                     {rangeTypes[1]}
                   </TabsTrigger>
                 </TabsList>
-                <TabsContent value={rangeTypes[0]}>
-                  <Calendar
-                    mode="range"
-                    numberOfMonths={2}
-                    selected={range}
-                    onDayFocus={(day) => {
-                      setRange({
-                        from: day,
-                        to: day,
-                      });
-                    }}
-                    defaultMonth={selectedRange.from}
-                  />
-                </TabsContent>
-                <TabsContent value={rangeTypes[1]}>
-                  {/* <Calendar
+                <div className="p-2">
+                  <TabsContent value={rangeTypes[0]}>
+                    <Calendar
+                      mode="range"
+                      numberOfMonths={2}
+                      selected={range}
+                      onDayFocus={(day) => {
+                        setRange({
+                          from: day,
+                          to: day,
+                        });
+                      }}
+                      defaultMonth={selectedRange.from}
+                    />
+                  </TabsContent>
+                  <TabsContent value={rangeTypes[1]}>
+                    {/* <Calendar
                     classNames={{
                       nav_button: cn(
                         buttonVariants({ variant: "outline" }),
@@ -140,15 +169,52 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                     }}
                     defaultMonth={selectedRange.from}
                   /> */}
-                  <XCalendar
-                    defaultMonth={new Date()}
-                    dateCellPropsGen={(date) => {
-                      return {
-                        className: "w-9 h-9 flex justify-center items-center",
-                      };
-                    }}
-                  />
-                </TabsContent>
+                    <div className="flex flex-row gap-2">
+                      <XCalendar
+                        titleLeft={
+                          <Button
+                            onClick={() => {
+                              setViewDate(subMonths(viewDate, 1));
+                            }}
+                          >
+                            <ChevronLeft />
+                          </Button>
+                        }
+                        viewDate={viewDate}
+                        rangeType="week"
+                        range={range}
+                        setRange={setRange}
+                        hoverDate={hoverDate}
+                        hoverRange={hoverRange}
+                        setHoverDate={setHoverDate}
+                        options={{
+                          showOutOfCalendarDates: true,
+                        }}
+                      />
+                      <XCalendar
+                        titleRight={
+                          <Button
+                            onClick={() => {
+                              setViewDate(addMonths(viewDate, 1));
+                            }}
+                          >
+                            <ChevronRight />
+                          </Button>
+                        }
+                        viewDate={addMonths(viewDate, 1)}
+                        rangeType="week"
+                        range={range}
+                        setRange={setRange}
+                        hoverDate={hoverDate}
+                        hoverRange={hoverRange}
+                        setHoverDate={setHoverDate}
+                        options={{
+                          showOutOfCalendarDates: false,
+                        }}
+                      />
+                    </div>
+                  </TabsContent>
+                </div>
               </Tabs>
               <div className="flex flex-row justify-end gap-2">
                 <Button
@@ -163,6 +229,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                 <Button
                   onClick={() => {
                     setSelectedRange(range);
+                    setViewDate(range.from);
                     setIsOpen(false);
                   }}
                 >
@@ -176,5 +243,5 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
     );
   },
 );
-
+DateRangePicker.displayName = "DateRangePicker";
 export { DateRangePicker };
