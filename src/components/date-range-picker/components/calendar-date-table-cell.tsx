@@ -137,10 +137,12 @@ export function CalendarDateTableCell(props: {
         props.range.from,
         props.range.to,
       );
+      // const isStartOfSelected = isEqual(cellDate, props.range.from);
       const isHovered =
         props.hoverRange &&
         isDateBetween(cellDate, props.hoverRange.from, props.hoverRange.to);
       const isPartOfBingSelected =
+        !props.isSelectingEnd &&
         props.hoverRange &&
         ((isBefore(cellDate, props.range.from) &&
           isDateBetween(cellDate, props.range.from, props.hoverRange.from)) ||
@@ -149,8 +151,14 @@ export function CalendarDateTableCell(props: {
       return cn(
         base,
         isOutsideCalendarDates ? "opacity-20" : "",
-        isHovered ? "bg-gray-200" : "",
-        isPartOfSelected ? "bg-gray-300" : "",
+        isPartOfBingSelected ? "bg-gray-200" : "",
+        isPartOfSelected
+          ? cn(
+              "bg-gray-300",
+              // isStartOfSelected ? cn(cornerDateBase, "rounded-l-full") : "",
+            )
+          : "",
+        isHovered ? "bg-gray-400" : "",
       );
     },
     [
