@@ -1,16 +1,4 @@
 "use client";
-import React, {
-  forwardRef,
-  useEffect,
-  useMemo,
-  useState,
-  useCallback,
-  type Dispatch,
-  type SetStateAction,
-} from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
-import { Button } from "../ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   addMonths,
   addYears,
@@ -28,10 +16,22 @@ import {
   subMonths,
   subYears,
 } from "date-fns";
-import { Calendar } from "./calendar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { type DateRange } from "./types";
-import { rangeTypes } from "./constants";
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type Dispatch,
+  type SetStateAction,
+} from "react";
+import { Button } from "../../ui/button";
+import { Popover, PopoverContent, PopoverTrigger } from "../../ui/popover";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
+import { rangeTypes } from "../constants";
+import { type DateRange } from "../types";
+import { Calendar } from "./calendar";
 
 export interface DateRangePickerProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
