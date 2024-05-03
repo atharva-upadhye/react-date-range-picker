@@ -553,6 +553,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   onClick={() => {
                     resetValues();
                     setIsOpen(false);
+                    setHoverDate(null);
                   }}
                 >
                   Cancel
@@ -562,6 +563,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                     setSelectedRange(range);
                     setViewDate(range.from);
                     setIsOpen(false);
+                    setHoverDate(null);
                   }}
                 >
                   Apply
