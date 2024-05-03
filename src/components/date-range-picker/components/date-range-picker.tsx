@@ -14,6 +14,8 @@ import {
   startOfWeek,
   startOfYear,
   subMonths,
+  subQuarters,
+  subWeeks,
   subYears,
 } from "date-fns";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -172,11 +174,11 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   variant={"link"}
                   onClick={() => {
                     setRangeType("custom");
-                    const now = new Date();
-                    setViewDate(now);
+                    const from = startOfDay(new Date());
+                    setViewDate(from);
                     setRange({
-                      from: startOfDay(now),
-                      to: endOfDay(now),
+                      from,
+                      to: endOfDay(from),
                     });
                   }}
                 >
@@ -187,15 +189,120 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   variant={"link"}
                   onClick={() => {
                     setRangeType("weeks");
-                    const now = new Date();
-                    setViewDate(startOfWeek(now));
+                    const from = startOfWeek(new Date());
+                    setViewDate(from);
                     setRange({
-                      from: startOfWeek(now),
-                      to: endOfWeek(now),
+                      from,
+                      to: endOfWeek(from),
                     });
                   }}
                 >
                   This week
+                </Button>
+                <Button
+                  className="justify-start"
+                  variant={"link"}
+                  onClick={() => {
+                    setRangeType("months");
+                    const from = startOfMonth(new Date());
+                    setViewDate(from);
+                    setRange({
+                      from,
+                      to: endOfMonth(from),
+                    });
+                  }}
+                >
+                  This month
+                </Button>
+                <Button
+                  className="justify-start"
+                  variant={"link"}
+                  onClick={() => {
+                    setRangeType("quarters");
+                    const from = startOfQuarter(new Date());
+                    setViewDate(from);
+                    setRange({
+                      from,
+                      to: endOfQuarter(from),
+                    });
+                  }}
+                >
+                  This quarter
+                </Button>
+                <Button
+                  className="justify-start"
+                  variant={"link"}
+                  onClick={() => {
+                    setRangeType("years");
+                    const from = startOfYear(new Date());
+                    setViewDate(from);
+                    setRange({
+                      from,
+                      to: endOfYear(from),
+                    });
+                  }}
+                >
+                  This year
+                </Button>
+                <Button
+                  className="justify-start"
+                  variant={"link"}
+                  onClick={() => {
+                    setRangeType("weeks");
+                    const from = startOfWeek(subWeeks(new Date(), 1));
+                    setViewDate(from);
+                    setRange({
+                      from: from,
+                      to: endOfWeek(from),
+                    });
+                  }}
+                >
+                  Last week
+                </Button>
+                <Button
+                  className="justify-start"
+                  variant={"link"}
+                  onClick={() => {
+                    setRangeType("months");
+                    const from = startOfMonth(subMonths(new Date(), 1));
+                    setViewDate(from);
+                    setRange({
+                      from: from,
+                      to: endOfMonth(from),
+                    });
+                  }}
+                >
+                  Last month
+                </Button>
+                <Button
+                  className="justify-start"
+                  variant={"link"}
+                  onClick={() => {
+                    setRangeType("quarters");
+                    const from = startOfQuarter(subQuarters(new Date(), 1));
+                    setViewDate(from);
+                    setRange({
+                      from: from,
+                      to: endOfQuarter(from),
+                    });
+                  }}
+                >
+                  Last quarter
+                </Button>
+                <Button
+                  className="justify-start"
+                  variant={"link"}
+                  onClick={() => {
+                    setRangeType("years");
+                    const from = startOfYear(subYears(new Date(), 1));
+                    setViewDate(from);
+                    setRange({
+                      from: from,
+                      to: endOfYear(from),
+                    });
+                  }}
+                >
+                  Last year
                 </Button>
               </div>
             </div>
