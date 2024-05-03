@@ -28,13 +28,13 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { type rangeTypes, type DateRange } from "../date-range-picker";
+import { type RangeType, type DateRange } from "./types";
 import { cn } from "@/lib/utils";
 
-type XCalendarProps = {
+type CalendarProps = {
   viewDate: Date;
   weekDayProps?: ThHTMLAttributes<HTMLTableCellElement>;
-  rangeType: (typeof rangeTypes)[number];
+  rangeType: RangeType;
   range: DateRange;
   setRange: Dispatch<SetStateAction<DateRange>>;
   hoverDate: Date | null;
@@ -49,7 +49,7 @@ type XCalendarProps = {
   setIsSelectingEnd: Dispatch<SetStateAction<boolean>>;
   getDateRange: (date: Date) => DateRange;
 };
-function XCalendar(props: XCalendarProps) {
+function Calendar(props: CalendarProps) {
   const weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
   const firstCell =
     props.rangeType === "months"
@@ -348,4 +348,4 @@ function XCalendar(props: XCalendarProps) {
   );
 }
 
-export { XCalendar };
+export { Calendar };

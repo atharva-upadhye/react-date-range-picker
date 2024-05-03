@@ -1,6 +1,6 @@
 "use client";
 import { DateRangePicker } from "@/components/date-range-picker";
-import { SetStateAction, useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function DrpPage() {
   const [range, setRange] = useState({

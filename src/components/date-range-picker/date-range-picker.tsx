@@ -1,20 +1,18 @@
 "use client";
 import React, {
-  type Dispatch,
-  type SetStateAction,
   forwardRef,
   useEffect,
   useMemo,
   useState,
   useCallback,
+  type Dispatch,
+  type SetStateAction,
 } from "react";
-import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { Button } from "./ui/button";
-import { Calendar } from "./ui/calendar";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
+import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
+import { Button } from "../ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import {
   addMonths,
-  addQuarters,
   addYears,
   endOfDay,
   endOfMonth,
@@ -28,19 +26,12 @@ import {
   startOfWeek,
   startOfYear,
   subMonths,
-  subQuarters,
   subYears,
 } from "date-fns";
-import { XCalendar } from "./ui/XCalendar";
+import { Calendar } from "./calendar";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-export const rangeTypes = [
-  "custom",
-  "weeks",
-  "months",
-  "quarters",
-  "years",
-] as const;
+import { type DateRange } from "./types";
+import { rangeTypes } from "./constants";
 
 export interface DateRangePickerProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -52,10 +43,6 @@ export interface DateRangePickerProps
     }>
   >;
 }
-export type DateRange = {
-  from: Date;
-  to: Date;
-};
 const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
   ({ selectedRange, setSelectedRange, ...buttonProps }, ref) => {
     const [isSelectingEnd, setIsSelectingEnd] = useState(false);
@@ -259,7 +246,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                 <div className="p-2">
                   <TabsContent value={rangeTypes[0]}>
                     <div className="flex flex-row gap-2">
-                      <XCalendar
+                      <Calendar
                         titleLeft={
                           <Button
                             onClick={() => {
@@ -283,7 +270,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         setIsSelectingEnd={setIsSelectingEnd}
                         getDateRange={getDateRange}
                       />
-                      <XCalendar
+                      <Calendar
                         titleRight={
                           <Button
                             onClick={() => {
@@ -323,7 +310,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   </TabsContent>
                   <TabsContent value={rangeTypes[1]}>
                     <div className="flex flex-row gap-2">
-                      <XCalendar
+                      <Calendar
                         titleLeft={
                           <Button
                             onClick={() => {
@@ -347,7 +334,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         setIsSelectingEnd={setIsSelectingEnd}
                         getDateRange={getDateRange}
                       />
-                      <XCalendar
+                      <Calendar
                         titleRight={
                           <Button
                             onClick={() => {
@@ -404,7 +391,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   </TabsContent>
                   <TabsContent value={rangeTypes[2]}>
                     <div className="flex flex-row gap-2">
-                      <XCalendar
+                      <Calendar
                         titleLeft={
                           <Button
                             onClick={() => {
@@ -428,7 +415,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         setIsSelectingEnd={setIsSelectingEnd}
                         getDateRange={getDateRange}
                       />
-                      <XCalendar
+                      <Calendar
                         titleRight={
                           <Button
                             onClick={() => {
@@ -456,7 +443,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   </TabsContent>
                   <TabsContent value={rangeTypes[3]}>
                     <div className="flex flex-row gap-2">
-                      <XCalendar
+                      <Calendar
                         titleLeft={
                           <Button
                             onClick={() => {
@@ -480,7 +467,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         setIsSelectingEnd={setIsSelectingEnd}
                         getDateRange={getDateRange}
                       />
-                      <XCalendar
+                      <Calendar
                         titleRight={
                           <Button
                             onClick={() => {
@@ -508,7 +495,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                   </TabsContent>
                   <TabsContent value={rangeTypes[4]}>
                     <div className="flex flex-row gap-2">
-                      <XCalendar
+                      <Calendar
                         titleLeft={
                           <Button
                             onClick={() => {
@@ -532,7 +519,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         setIsSelectingEnd={setIsSelectingEnd}
                         getDateRange={getDateRange}
                       />
-                      <XCalendar
+                      <Calendar
                         titleRight={
                           <Button
                             onClick={() => {
