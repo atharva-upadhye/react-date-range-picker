@@ -359,35 +359,6 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         getDateRange={getDateRange}
                       />
                     </div>
-                    {/* <Calendar
-                    classNames={{
-                      nav_button: cn(
-                        buttonVariants({ variant: "outline" }),
-                        "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
-                      ),
-                      cell: "h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent  focus-within:relative focus-within:z-20",
-                      day_range_end: "day-range-end rounded-none rounded-r-md",
-                      day_range_start:
-                        "day-range-end rounded-none rounded-l-md",
-                      day_selected:
-                        "bg-primary text-primary-foreground text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
-                      day_range_middle:
-                        "aria-selected:bg-primary aria-selected:text-primary-foreground rounded-none ",
-
-                      weeknumber:
-                        "flex h-9 w-9 justify-center items-center text-gray-400",
-                    }}
-                    mode="range"
-                    numberOfMonths={2}
-                    selected={range}
-                    onDayFocus={(day) => {
-                      setRange({
-                        from: startOfWeek(day),
-                        to: endOfWeek(day),
-                      });
-                    }}
-                    defaultMonth={selectedRange.from}
-                    /> */}
                   </TabsContent>
                   <TabsContent value={rangeTypes[2]}>
                     <div className="flex flex-row gap-2">

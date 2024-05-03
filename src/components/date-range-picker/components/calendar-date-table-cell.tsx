@@ -62,76 +62,10 @@ export function CalendarDateTableCell(props: {
         "flex h-12 w-12 cursor-pointer items-center justify-center",
         props.rangeType === "years" ? "w-20" : "",
       );
-      const cornerDateBase = cn(
-        "before:absolute before:h-12 before:w-12 before:rounded-full before:bg-gray-500",
-        props.rangeType === "years" ? "before:w-20" : "",
-      );
-
-      // let toReturn = "";
-      // const cornerDate = {
-      //   left: cn("rounded-l-full", cornerDateBase),
-      //   right: cn("rounded-r-full", cornerDateBase),
-      // };
-      // const styleRangeEnd = cn("rounded-r-full", cornerDateBase);
-      // const isPartOfSelectedRange = isDateBetween(
-      //   cellDate,
-      //   props.range.from,
-      //   props.range.to,
+      // const cornerDateBase = cn(
+      //   "before:absolute before:h-12 before:w-12 before:rounded-full before:bg-gray-500",
+      //   props.rangeType === "years" ? "before:w-20" : "",
       // );
-      // if (isEqual(props.range.from, cellDate)) {
-      //   toReturn = cn(
-      //     base,
-      //     isPartOfSelectedRange ? "bg-gray-400" : "",
-      //     cornerDate.left,
-      //   );
-      // } else if (
-      //   isEqual(
-      //     props.rangeType === "months"
-      //       ? endOfMonth(props.range.to)
-      //       : endOfDay(props.range.to),
-      //     props.rangeType === "months"
-      //       ? endOfMonth(cellDate)
-      //       : endOfDay(cellDate),
-      //   )
-      // ) {
-      //   toReturn = cn(
-      //     "flex h-12 w-12 cursor-pointer items-center justify-center",
-      //     isPartOfSelectedRange ? "bg-gray-400" : "",
-      //     styleRangeEnd,
-      //   );
-      // } else {
-      //   toReturn = cn(base, isPartOfSelectedRange ? "bg-gray-400" : "");
-      // }
-      // if (props.hoverRange) {
-      //   if (
-      //     props.hoverDate &&
-      //     isDateBetween(cellDate, props.range.from, props.hoverDate)
-      //   ) {
-      //     toReturn = cn(base, "bg-gray-400");
-      //   }
-      //   if (
-      //     isDateBetween(cellDate, props.hoverRange.from, props.hoverRange.to)
-      //   ) {
-      //     toReturn = cn(base, "bg-gray-300");
-      //     if (isEqual(cellDate, props.hoverRange.from)) {
-      //       toReturn = cn(base, cornerDate.left);
-      //     } else if (
-      //       isEqual(
-      //         props.rangeType === "months"
-      //           ? endOfMonth(cellDate)
-      //           : endOfDay(cellDate),
-      //         props.rangeType === "months"
-      //           ? endOfMonth(props.hoverRange.to)
-      //           : endOfDay(props.hoverRange.to),
-      //       )
-      //     ) {
-      //       toReturn = cn(
-      //         "flex h-12 w-12 cursor-pointer items-center justify-center",
-      //         styleRangeEnd,
-      //       );
-      //     }
-      //   }
-      // }
       const isPartOfSelected = isDateBetween(
         cellDate,
         props.range.from,
