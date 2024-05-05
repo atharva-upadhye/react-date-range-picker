@@ -48,28 +48,24 @@ export interface DateRangePickerProps
 }
 const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
   ({ selectedRange, setSelectedRange, ...buttonProps }, ref) => {
+    const prevRange = useMemo(
+      () => ({
+        from: startOfDay(selectedRange.from),
+        to: endOfDay(selectedRange.to),
+      }),
+      [selectedRange.from, selectedRange.to],
+    );
     const [isSelectingStart, setIsSelectingStart] = useState(true);
     const [isOpen, setIsOpen] = useState(false);
     useEffect(() => {
       setIsOpen(true);
     }, []);
-    const [rangeType, setRangeType] = useState<RangeType>(rangeTypes[0]);
-    const [viewDate, setViewDate] = useState(startOfDay(selectedRange.from));
-    const [range, setRange] = useState<DateRange>(
-      rangeType === "months"
-        ? {
-            from: startOfYear(selectedRange.from),
-            to: endOfYear(selectedRange.to),
-          }
-        : {
-            from: startOfDay(selectedRange.from),
-            to: endOfDay(selectedRange.to),
-          },
-    );
+    const [rangeType, setRangeType] = useState<RangeType>("custom");
+    const [range, setRange] = useState<DateRange>(prevRange);
+    const [viewDate, setViewDate] = useState(startOfDay(prevRange.from));
     const resetValues = () => {
-      setRange(selectedRange);
+      setRange(prevRange);
     };
-
     const getDateRange = useCallback(
       (date: Date): DateRange => {
         if (rangeType === "custom") {

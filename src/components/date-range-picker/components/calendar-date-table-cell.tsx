@@ -9,7 +9,6 @@ import {
   getQuarter,
   isAfter,
   isBefore,
-  isEqual,
   startOfDay,
   startOfMonth,
   startOfQuarter,
