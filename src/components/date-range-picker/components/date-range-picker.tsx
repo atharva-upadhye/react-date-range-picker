@@ -34,6 +34,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../ui/tabs";
 import { rangeTypes } from "../constants";
 import { type RangeType, type DateRange } from "../types";
 import { Calendar } from "./calendar";
+import { toTitleCase } from "@/lib/utils";
 
 export interface DateRangePickerProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -68,13 +69,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
     const resetValues = () => {
       setRange(selectedRange);
     };
-    useEffect(() => {
-      console.log(
-        "range",
-        formatDate(range.from, "dd MM yyyy"),
-        formatDate(range.to, "dd MM yyyy"),
-      );
-    }, [range]);
+
     const getDateRange = useCallback(
       (date: Date): DateRange => {
         if (rangeType === "custom") {
@@ -136,10 +131,16 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
       };
     }, [hoverDate, rangeType]);
 
-    useEffect(() => {
-      console.log("isSelectingStart", isSelectingStart);
-    }, [isSelectingStart]);
-
+    const commonProps = {
+      range,
+      setRange,
+      hoverDate,
+      hoverRange,
+      setHoverDate,
+      isSelectingStart,
+      setIsSelectingStart,
+      getDateRange,
+    };
     return (
       <Popover
         modal={true}
@@ -152,13 +153,7 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
         }}
       >
         <PopoverTrigger asChild>
-          <Button
-            ref={ref}
-            onClick={() => {
-              console.log("clicked");
-            }}
-            {...buttonProps}
-          >
+          <Button ref={ref} {...buttonProps}>
             {formatDate(selectedRange.from, "dd/MM/yyyy") +
               " - " +
               formatDate(selectedRange.to, "dd/MM/yyyy")}
@@ -308,49 +303,20 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                 </Button>
               </div>
             </div>
-            <div className="flex flex-col px-3">
+            <div className="flex flex-col justify-between px-3">
               <Tabs value={rangeType} className="w-auto">
                 <TabsList>
-                  <TabsTrigger
-                    value={rangeTypes[0]}
-                    onClick={() => {
-                      setRangeType(rangeTypes[0]);
-                    }}
-                  >
-                    {rangeTypes[0]}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value={rangeTypes[1]}
-                    onClick={() => {
-                      setRangeType(rangeTypes[1]);
-                    }}
-                  >
-                    {rangeTypes[1]}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value={rangeTypes[2]}
-                    onClick={() => {
-                      setRangeType(rangeTypes[2]);
-                    }}
-                  >
-                    {rangeTypes[2]}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value={rangeTypes[3]}
-                    onClick={() => {
-                      setRangeType(rangeTypes[3]);
-                    }}
-                  >
-                    {rangeTypes[3]}
-                  </TabsTrigger>
-                  <TabsTrigger
-                    value={rangeTypes[4]}
-                    onClick={() => {
-                      setRangeType(rangeTypes[4]);
-                    }}
-                  >
-                    {rangeTypes[4]}
-                  </TabsTrigger>
+                  {rangeTypes.map((rangeType) => (
+                    <TabsTrigger
+                      key={rangeType}
+                      value={rangeType}
+                      onClick={() => {
+                        setRangeType(rangeType);
+                      }}
+                    >
+                      {toTitleCase(rangeType)}
+                    </TabsTrigger>
+                  ))}
                 </TabsList>
                 <div className="p-2">
                   <TabsContent value={rangeTypes[0]}>
@@ -391,31 +357,12 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={addMonths(viewDate, 1)}
                         rangeType="custom"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                     </div>
-                    {/* <Calendar
-                      mode="range"
-                      numberOfMonths={2}
-                      selected={range}
-                      onDayFocus={(day) => {
-                        setRange({
-                          from: day,
-                          to: day,
-                        });
-                      }}
-                      defaultMonth={selectedRange.from}
-                    /> */}
                   </TabsContent>
                   <TabsContent value={rangeTypes[1]}>
                     <div className="flex flex-row gap-2">
@@ -431,17 +378,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={viewDate}
                         rangeType="weeks"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                       <Calendar
                         titleRight={
@@ -455,17 +395,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={addMonths(viewDate, 1)}
                         rangeType="weeks"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                     </div>
                   </TabsContent>
@@ -483,17 +416,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={viewDate}
                         rangeType="months"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                       <Calendar
                         titleRight={
@@ -507,17 +433,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={addYears(viewDate, 1)}
                         rangeType="months"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                     </div>
                   </TabsContent>
@@ -535,17 +454,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={viewDate}
                         rangeType="quarters"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                       <Calendar
                         titleRight={
@@ -559,17 +471,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={addYears(viewDate, 1)}
                         rangeType="quarters"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                     </div>
                   </TabsContent>
@@ -587,17 +492,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={viewDate}
                         rangeType="years"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: true,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                       <Calendar
                         titleRight={
@@ -611,17 +509,10 @@ const DateRangePicker = forwardRef<HTMLButtonElement, DateRangePickerProps>(
                         }
                         viewDate={addYears(viewDate, 12)}
                         rangeType="years"
-                        range={range}
-                        setRange={setRange}
-                        hoverDate={hoverDate}
-                        hoverRange={hoverRange}
-                        setHoverDate={setHoverDate}
                         options={{
                           showOutOfCalendarDates: false,
                         }}
-                        isSelectingStart={isSelectingStart}
-                        setIsSelectingStart={setIsSelectingStart}
-                        getDateRange={getDateRange}
+                        {...commonProps}
                       />
                     </div>
                   </TabsContent>
