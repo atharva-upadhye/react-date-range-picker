@@ -1,54 +1,40 @@
-/** @type {import("eslint").Linter.Config} */
-const config = {
-  parser: "@typescript-eslint/parser",
-  parserOptions: {
-    project: true,
-  },
-  plugins: ["@typescript-eslint", "drizzle"],
+const { ESLint } = require("eslint");
+const tsconfigNodeJson = require("./tsconfig.node.json");
+/** @type {ESLint.ConfigData} */
+module.exports = {
+  root: true,
+  env: { browser: true, es2020: true },
   extends: [
-    "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended-type-checked",
+    "eslint:recommended",
+    "plugin:@typescript-eslint/strict-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:react-hooks/recommended",
+    "plugin:storybook/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
   ],
+  ignorePatterns: tsconfigNodeJson.exclude,
+  parser: "@typescript-eslint/parser",
+  plugins: ["react-refresh"],
   rules: {
-    "@typescript-eslint/array-type": "off",
-    "@typescript-eslint/consistent-type-definitions": "off",
-    "@typescript-eslint/consistent-type-imports": [
+    "react-refresh/only-export-components": [
       "warn",
-      {
-        prefer: "type-imports",
-        fixStyle: "inline-type-imports",
-      },
+      { allowConstantExport: true },
     ],
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        argsIgnorePattern: "^_",
-      },
+  },
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    project: [
+      "./tsconfig.json",
+      "./tsconfig.node.json",
+      "./tsconfig.build.json",
     ],
-    "@typescript-eslint/require-await": "off",
-    "@typescript-eslint/no-misused-promises": [
-      "error",
-      {
-        checksVoidReturn: {
-          attributes: false,
-        },
-      },
-    ],
-    "drizzle/enforce-delete-with-where": [
-      "error",
-      {
-        drizzleObjectName: ["db"],
-      },
-    ],
-    "drizzle/enforce-update-with-where": [
-      "error",
-      {
-        drizzleObjectName: ["db"],
-      },
-    ],
-    // "react-hooks/exhaustive-deps": "error",
+    tsconfigRootDir: __dirname,
+  },
+  settings: {
+    react: {
+      version: "detect",
+    },
   },
 };
-module.exports = config;

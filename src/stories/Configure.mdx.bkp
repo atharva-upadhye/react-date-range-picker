@@ -1,0 +1,7 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Welcome" />
+
+# Welcome to DateRangePicker Storybook!
+
+Click [here](./?path=/story/daterangepicker--default) is the detailed documentation and examples of `DateRangePicker`.
